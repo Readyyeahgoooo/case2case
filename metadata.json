@@ -1,0 +1,5 @@
+{
+  "name": "HK Case Law Galaxy",
+  "description": "A GraphRAG transparent AI map visualizing the connections between Hong Kong case laws, legal concepts, and statutes.",
+  "requestFramePermissions": []
+}
