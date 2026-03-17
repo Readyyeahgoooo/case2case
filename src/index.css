@@ -1,1 +1,259 @@
 @import "tailwindcss";
+
+/* ── Base ──────────────────────────────────────────── */
+:root {
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  
+  /* Galaxy palette */
+  --galaxy-bg: #020617;
+  --panel-bg: rgba(15, 23, 42, 0.85);
+  --panel-border: rgba(51, 65, 85, 0.6);
+  --glow-blue: rgba(59, 130, 246, 0.4);
+  --glow-emerald: rgba(16, 185, 129, 0.4);
+  --glow-purple: rgba(168, 85, 247, 0.4);
+  --glow-red: rgba(239, 68, 68, 0.4);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--galaxy-bg);
+  color: #e2e8f0;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Scrollbar ─────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.4);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 116, 139, 0.7);
+}
+
+/* ── Panel glass effect ────────────────────────────── */
+.glass-panel {
+  background: var(--panel-bg);
+  backdrop-filter: blur(20px) saturate(1.5);
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  border: 1px solid var(--panel-border);
+  border-radius: 16px;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.03),
+    0 4px 30px rgba(0, 0, 0, 0.4),
+    0 0 60px -20px rgba(99, 102, 241, 0.1);
+}
+
+/* ── Genealogy timeline ────────────────────────────── */
+.genealogy-timeline {
+  position: relative;
+  padding-left: 24px;
+}
+.genealogy-timeline::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: linear-gradient(to bottom, rgba(99, 102, 241, 0.6), rgba(168, 85, 247, 0.3), rgba(99, 102, 241, 0.1));
+  border-radius: 2px;
+}
+.genealogy-node {
+  position: relative;
+  padding: 8px 12px;
+  margin-bottom: 4px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.genealogy-node::before {
+  content: '';
+  position: absolute;
+  left: -20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid rgba(99, 102, 241, 0.6);
+  background: var(--galaxy-bg);
+  transition: all 0.2s ease;
+}
+.genealogy-node:hover {
+  background: rgba(99, 102, 241, 0.08);
+}
+.genealogy-node:hover::before {
+  background: rgba(99, 102, 241, 0.5);
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.4);
+}
+.genealogy-node.active {
+  background: rgba(99, 102, 241, 0.12);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+}
+.genealogy-node.active::before {
+  background: #6366f1;
+  border-color: #818cf8;
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.6);
+}
+
+/* ── Topic tree ────────────────────────────────────── */
+.topic-tree-item {
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.topic-tree-item:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+.topic-tree-item.active {
+  background: rgba(99, 102, 241, 0.1);
+  border-left: 2px solid #6366f1;
+}
+
+/* ── Citation badges ───────────────────────────────── */
+.citation-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+.citation-badge:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+.citation-badge--case {
+  background: rgba(59, 130, 246, 0.15);
+  color: #93c5fd;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+.citation-badge--case:hover {
+  background: rgba(59, 130, 246, 0.25);
+}
+.citation-badge--topic {
+  background: rgba(16, 185, 129, 0.15);
+  color: #6ee7b7;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+.citation-badge--tag {
+  background: rgba(168, 85, 247, 0.15);
+  color: #c4b5fd;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+}
+
+/* ── Court badges ──────────────────────────────────── */
+.court-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+}
+.court-badge--CFA { background: rgba(239, 68, 68, 0.15); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.3); }
+.court-badge--PC  { background: rgba(239, 68, 68, 0.12); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.25); }
+.court-badge--CA  { background: rgba(245, 158, 11, 0.15); color: #fcd34d; border: 1px solid rgba(245, 158, 11, 0.3); }
+.court-badge--CFI { background: rgba(59, 130, 246, 0.15); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.3); }
+.court-badge--DC  { background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.3); }
+.court-badge--EWCA { background: rgba(168, 85, 247, 0.12); color: #c4b5fd; border: 1px solid rgba(168, 85, 247, 0.25); }
+.court-badge--EWCACiv { background: rgba(168, 85, 247, 0.12); color: #c4b5fd; border: 1px solid rgba(168, 85, 247, 0.25); }
+.court-badge--HK  { background: rgba(100, 116, 139, 0.15); color: #cbd5e1; border: 1px solid rgba(100, 116, 139, 0.3); }
+
+/* ── Relationship edge labels ──────────────────────── */
+.rel-label {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+  padding: 1px 5px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.rel-label--adopts      { color: #93c5fd; background: rgba(59,130,246,0.12); }
+.rel-label--cites       { color: #cbd5e1; background: rgba(100,116,139,0.12); }
+.rel-label--applies     { color: #6ee7b7; background: rgba(16,185,129,0.12); }
+.rel-label--follows     { color: #6ee7b7; background: rgba(16,185,129,0.12); }
+.rel-label--reaffirms   { color: #93c5fd; background: rgba(59,130,246,0.12); }
+.rel-label--distinguishes { color: #fcd34d; background: rgba(245,158,11,0.12); }
+.rel-label--overrules   { color: #fca5a5; background: rgba(239,68,68,0.12); }
+.rel-label--synthesizes { color: #c4b5fd; background: rgba(168,85,247,0.12); }
+
+/* ── Pulse animation for active nodes ──────────────── */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 4px rgba(99, 102, 241, 0.3); }
+  50% { box-shadow: 0 0 16px rgba(99, 102, 241, 0.6), 0 0 30px rgba(99, 102, 241, 0.2); }
+}
+.pulse-active {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* ── Search input ──────────────────────────────────── */
+.search-input {
+  width: 100%;
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(51, 65, 85, 0.5);
+  border-radius: 10px;
+  padding: 8px 12px 8px 36px;
+  font-size: 13px;
+  color: #e2e8f0;
+  outline: none;
+  transition: all 0.2s ease;
+  font-family: var(--font-sans);
+}
+.search-input::placeholder {
+  color: rgba(148, 163, 184, 0.6);
+}
+.search-input:focus {
+  border-color: rgba(99, 102, 241, 0.5);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* ── Fade-in animation ─────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* ── Line clamp utility ────────────────────────────── */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ── Force graph canvas fix ────────────────────────── */
+.force-graph-container canvas { 
+  outline: none !important;
+}
